@@ -1,59 +1,68 @@
-import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import { Tabs } from "expo-router";
+import {
+  LayoutDashboard,
+  Settings,
+  PlusIcon,
+  GroupIcon,
+  ChartBar,
+} from "lucide-react-native";
 
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+const TabsLayout = () => {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
-      }}>
+    <Tabs>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+          headerTitle: "Home",
+          title: "Home",
+          tabBarIcon: ({ size, color }) => (
+            <LayoutDashboard size={24} color={color} strokeWidth={1.5} />
           ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="add/index"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          headerTitle: "Add",
+          title: "Add",
+          headerShown: false,
+          tabBarIcon: ({ size, color }) => (
+            <PlusIcon size={24} color={color} strokeWidth={1.5} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="budgets/index"
+        options={{
+          headerTitle: "Budgets",
+          title: "Budgets",
+          tabBarIcon: ({ size, color }) => (
+            <ChartBar size={24} color={color} strokeWidth={1.5} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="family"
+        options={{
+          headerTitle: "Family",
+          title: "Family",
+          tabBarIcon: ({ size, color }) => (
+            <GroupIcon size={24} color={color} strokeWidth={1.5} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings/index"
+        options={{
+          headerTitle: "Settings",
+          title: "Settings",
+          tabBarIcon: ({ size, color }) => (
+            <Settings size={24} color={color} strokeWidth={1.5} />
+          ),
         }}
       />
     </Tabs>
   );
-}
+};
+
+export default TabsLayout;
